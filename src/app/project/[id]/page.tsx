@@ -14,9 +14,9 @@ export function generateStaticParams() {
   return Object.keys(projectsData).map((id) => ({ id }));
 }
 
-export default function ProjectPage({ params }: { params: { id: string } }) {
-  const projectId = params.id;
-  const project = projectsData[projectId];
+export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const project = projectsData[id];
 
   if (!project) {
     return (
@@ -54,7 +54,7 @@ export default function ProjectPage({ params }: { params: { id: string } }) {
             className="flex items-center gap-4"
           >
             <span className="text-xl font-sans font-light text-white border border-white/30 px-6 py-2 rounded-full backdrop-blur-md">
-              {projectId}
+              {id}
             </span>
             <span className="text-sm uppercase tracking-[0.2em] bg-accent text-white px-6 py-3 rounded-full font-bold">
               {project.category}
