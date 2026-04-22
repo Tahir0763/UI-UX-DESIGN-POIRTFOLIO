@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 
 // Mock data matching the projects on the home page
@@ -12,9 +9,13 @@ const projectsData: Record<string, any> = {
   "04": { title: "Aura Beauty", category: "Packaging", image: "https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=2000&auto=format&fit=crop" },
 };
 
-export default function ProjectPage() {
-  const params = useParams();
-  const projectId = params.id as string;
+// Required for Next.js static export - tells the build system which pages to generate
+export function generateStaticParams() {
+  return Object.keys(projectsData).map((id) => ({ id }));
+}
+
+export default function ProjectPage({ params }: { params: { id: string } }) {
+  const projectId = params.id;
   const project = projectsData[projectId];
 
   if (!project) {
@@ -70,7 +71,7 @@ export default function ProjectPage() {
         </div>
       </section>
 
-      {/* Case Study Content Placeholder */}
+      {/* Case Study Content */}
       <section className="max-w-4xl mx-auto px-6 py-32 flex flex-col gap-12">
         <div className="flex justify-between items-center border-b border-gray-800 pb-10">
           <h2 className="text-3xl font-display uppercase font-bold text-gray-300">Overview</h2>
