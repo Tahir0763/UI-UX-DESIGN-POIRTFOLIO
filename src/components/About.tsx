@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
@@ -9,7 +9,7 @@ export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRefs = useRef<(HTMLHeadingElement | HTMLParagraphElement)[]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {

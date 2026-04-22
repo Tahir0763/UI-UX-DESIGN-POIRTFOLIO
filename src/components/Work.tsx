@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
@@ -91,7 +91,7 @@ export default function Work() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
@@ -120,7 +120,11 @@ export default function Work() {
       }
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      // Kill all ScrollTriggers synchronously before React removes DOM nodes
+      ScrollTrigger.getAll().forEach(t => t.kill());
+      ctx.revert();
+    };
   }, []);
 
   return (
